@@ -2,7 +2,9 @@
 
 namespace Weyforth\Options;
 
-class Option extends Eloquent {
+use Illuminate\Database\Eloquent\Model;
+
+class Option extends Model {
 	
 	/**
 	 * The attributes excluded from the model's JSON form.

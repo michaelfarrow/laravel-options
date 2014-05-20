@@ -12,15 +12,15 @@ namespace Weyforth\Options;
 class Options
 {
 
-	/**
+     /**
      * The table to store options.
      *
      * @var $table
      */
-	protected $table = 'options';
+     protected $table = 'options';
 
 
-	/**
+     /**
      * Get the option.
      *
      * With an optional default value.
@@ -30,17 +30,25 @@ class Options
      *
      * @return mixed
      */
-	public function get($name, $default = NULL)
-	{
-		$value = $default;
- 		 return $default;
-		return unserialize($value);
-	}
+     public function get($key, $default = NULL)
+     {
+          $option = Option::where('key', '=', $key)->first();
+          if ($option) return unserialize($option->value);
 
-	public function set($name, $value)
-	{
+          return $default;
+     }
 
-		// serialize($value);
-	}
+     public function set($key, $value)
+     {
+          $option = Option::firstOrNew(array('key' => $key));
+          $option->value = serialize($value);
+          $option->save();
+     }
+
+     public function delete($key)
+     {
+          $option = Option::where('key', '=', $key)->first();
+          if ($option) $option->delete();
+     }
 
 }
